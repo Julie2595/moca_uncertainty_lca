@@ -412,7 +412,31 @@ class MonteCarloLCA(bw.LCA):
             DataFrame of shape (iterations, n_methods)
         """
 
+        ###################################################
+        if isinstance(method[0], str):
+            results = self.mc_results
+            idx = self.lcia_methods.index(method)
+            key = self.key_list[idx]
+
+            return pd.DataFrame({key: results[key]})  
+
+        for index, single_method in enumerate(method):
+            results = self.mc_results
+            idx = self.lcia_methods.index(single_method)
+            key = self.key_list[idx]
+
+            if index == 0:
+                df = pd.DataFrame({key: results[key]})   
+            else:
+                df[key] = results[key]  
+
+        return df        
+
+        ####################################################
+
+
         results = self.mc_results
+
 
         idx = self.lcia_methods.index(method)
         key = self.key_list[idx]

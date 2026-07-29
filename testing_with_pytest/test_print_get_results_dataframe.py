@@ -1,0 +1,42 @@
+'''
+NEXT STEPS:
+   - How can I run a test, without having this whole code?
+   - Which mock-object I need to replace the method-item
+      and which configurations it must have?
+'''
+
+# import method to test
+from src.moca_uncertainty_lca.monte_carlo import MonteCarloLCA as mc
+# import MagicMock
+from unittest.mock import MagicMock
+
+# implement mock object
+mock_mc_lca = MagicMock()
+mock_mc_lca.mc_results = {
+   "quantity [unit]": [1,2,3,4,5], 
+   "quantity2 [unit2]": [6,7,8,9,10]
+}
+mock_mc_lca.lcia_methods = [
+   ('database','method','quantity [unit]'),
+   ('database2','method2','quantity2 [unit2]')
+]
+mock_mc_lca.key_list = [
+   'quantity [unit]',
+   'quantity2 [unit2]'
+]
+
+# implement mock method
+mock_method = MagicMock()
+mock_method = (
+   ('database','method','quantity [unit]'),
+   ('database2','method2','quantity2 [unit2]')
+)
+
+# test method get_results_dataframe
+def test_get_one_method():
+   result = mc.get_results_dataframe(self = mock_mc_lca, method = mock_method[1])
+   print(result)
+
+def test_get_two_methods():
+   result_two = mc.get_results_dataframe(self = mock_mc_lca, method = mock_method)
+   print(result_two)
