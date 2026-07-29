@@ -5,6 +5,7 @@ NEXT STEPS:
       and which configurations it must have?
 '''
 
+import pytest
 # import method to test
 from src.moca_uncertainty_lca.monte_carlo import MonteCarloLCA as mc
 # import MagicMock
@@ -29,8 +30,27 @@ mock_mc_lca.key_list = [
 mock_method = MagicMock()
 mock_method = (
    ('database','method','quantity [unit]'),
-   ('database2','method2','quantity2 [unit2]')
+   ('database2','method2','quantity2 [unit2]'),
+   ('database3','method3','quantity3 [unit3]')   
 )
+
+# implement a second mock object
+mock_mc_lca_2 = MagicMock()
+mock_mc_lca_2.mc_results = {
+   "quantity [unit]": [1,2,3,4,5], 
+   "quantity2 [unit2]": [6,7,8,9,10],
+   'quantity3 [unit3]': [11,12,13,14,15]
+}
+mock_mc_lca_2.lcia_methods = [
+   ('database','method','quantity [unit]'),
+   ('database2','method2','quantity2 [unit2]'),
+   ('database3','method3','quantity3 [unit3]')
+]
+mock_mc_lca_2.key_list = [
+   'quantity [unit]',
+   'quantity2 [unit2]',
+   'quantity3 [unit3]'
+]
 
 # test method get_results_dataframe
 def test_get_one_method():
@@ -38,5 +58,15 @@ def test_get_one_method():
    print(result)
 
 def test_get_two_methods():
-   result_two = mc.get_results_dataframe(self = mock_mc_lca, method = mock_method)
+   result_two = mc.get_results_dataframe(self = mock_mc_lca, method = mock_method[:2])
    print(result_two)
+
+def test_get_three_methods():
+   with pytest.raises(ValueError):
+      result_three = mc.get_results_dataframe(self = mock_mc_lca, method = mock_method)
+      print(result_three)
+
+def test_get_three_methods():
+   # with pytest.raises(ValueError):
+      result_three_2 = mc.get_results_dataframe(self = mock_mc_lca_2, method = mock_method)
+      print(result_three_2)
