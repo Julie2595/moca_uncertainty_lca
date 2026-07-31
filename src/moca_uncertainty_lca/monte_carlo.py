@@ -419,18 +419,21 @@ class MonteCarloLCA(bw.LCA):
             key = self.key_list[idx]
 
             return pd.DataFrame({key: results[key]})  
+        
+        elif isinstance(method[0], tuple):
+            for index, single_method in enumerate(method):
+                results = self.mc_results
+                idx = self.lcia_methods.index(single_method)
+                key = self.key_list[idx]
 
-        for index, single_method in enumerate(method):
-            results = self.mc_results
-            idx = self.lcia_methods.index(single_method)
-            key = self.key_list[idx]
+                if index == 0:
+                    df = pd.DataFrame({key: results[key]})   
+                else:
+                    df[key] = results[key]  
 
-            if index == 0:
-                df = pd.DataFrame({key: results[key]})   
-            else:
-                df[key] = results[key]  
-
-        return df        
+            return df
+        else:
+            raise TypeError
 
         ####################################################
 
