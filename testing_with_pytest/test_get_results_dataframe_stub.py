@@ -49,23 +49,40 @@ mock_method = (
 
 # test method get_results_dataframe
 def test_get_one_method():
+	'''
+	store one method and regarding results in dataframe and print them.
+	'''
 	result = mc.get_results_dataframe(self = mcLCA_1, method = mock_method[1])
 	print("\n") 
 	print(result)
 
+
 def test_get_two_methods():
+	'''
+	store two method and regarding results in dataframe and print them.
+	'''
 	result_two = mc.get_results_dataframe(self = mcLCA_1, method = mock_method[:2])
 	print("\n")
 	print(result_two)
 
+
 def test_get_three_methods():
+	'''
+	it is not possible to have more methods to print than methods in mcLCA results
+	'''
+
 	with pytest.raises(ValueError):
 		result_three = mc.get_results_dataframe(self = mcLCA_1, method = mock_method)
 		print("\n")
 		print(result_three)
 
+
 def test_get_three_methods_2():
+	'''
+	test the method get_results_dataframe with three methods
+	'''
+	
 	# with pytest.raises(ValueError):
-		result_three_2 = mc.get_results_dataframe(self = mcLCA_2, method = mock_method)
-		print("\n")
-		print(result_three_2)
+	result_three_2 = mc.get_results_dataframe(self = mcLCA_2, method = mock_method)
+	print("\n")
+	print(result_three_2)
