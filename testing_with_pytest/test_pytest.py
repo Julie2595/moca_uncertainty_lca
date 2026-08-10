@@ -127,17 +127,17 @@ def test_print_uncertainty_info(prepare_moca, capsys):
     result = prepare_moca
     result.set_default_uncertainty()
 
-    # act
-    result.print_uncertainty_info()
-
-    output_print = capsys.readouterr()
     expected = (
         "Total exchanges: 16\n"
         "Exchanges with uncertainty: 16\n"
         "Percentage with uncertainty: 100.00%\n\n"
         "Uncertainty type distribution:\n"
         "  Type 4 (Uniform): 16 (100.0%)\n"
-    )       
+    )    
+
+    # act
+    result.print_uncertainty_info()
+    output_print = capsys.readouterr()
 
     # assert
     assert output_print.out == expected
@@ -153,11 +153,6 @@ def test_print_stats(prepare_moca, capsys):
     mc_lca = prepare_moca
     mc_lca.set_default_uncertainty()
     mc_lca.execute_monte_carlo(iterations=100)
-
-    # act
-    mc_lca.print_stats(impcats=["climate change [kg CO2-Eq]"])
-
-    output_print = capsys.readouterr()
 
     expected = (
         "This machine has 16 logical cores, using 16 cores for parallel processing.\n"
@@ -177,6 +172,10 @@ def test_print_stats(prepare_moca, capsys):
         "    90th percentile: 30896.97258107853\n"
         "    95th percentile: 31543.13184201968\n"
     )
+
+    # act
+    mc_lca.print_stats(impcats=["climate change [kg CO2-Eq]"])
+    output_print = capsys.readouterr()
 
     # assert
     assert output_print.out is not expected

@@ -1,4 +1,5 @@
 '''
+Tests to adjust the function 'get_results_dataframe()'.
 Instead of using a MagicMock-Object here a Stub-Object is used to test the function. 
 Using the package "dataclasses".
 '''
